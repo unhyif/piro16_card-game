@@ -4,5 +4,6 @@ from .views import *
 app_name = "cardgame"
 
 urlpatterns = [
-    # path('', function_name, name=""),
+    path('attack/', attack, name="attack"),
+    path('detail/<int:pk>', detail, name="detail"),
 ]
