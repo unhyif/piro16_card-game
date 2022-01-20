@@ -8,8 +8,7 @@ def attack(request):
         rule_list = ["BIG", "SMALL"]
         chosen_rule = choice(rule_list)
 
-        # game = Game(attacker=request.user, rule=chosen_rule)
-        game = Game(attacker=User.objects.get(id=1), rule=chosen_rule) # Game object 생성
+        game = Game(attacker=request.user, rule=chosen_rule) # Game object 생성
         form = AttackForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
@@ -17,15 +16,14 @@ def attack(request):
 
     else:
         form = AttackForm()
-        form.fields["defender"].queryset = User.objects.all().exclude(id=1) # request.id
+        form.fields["defender"].queryset = User.objects.all().exclude(id=request.user.id)
         return render(request, "cardgame/attack.html", {"form":form})
 
 
 def detail(request, pk):
     game = get_object_or_404(Game, id=pk)
     
-    # if request.user == game.attacker:
-    if User.objects.get(id=1) == game.attacker:
+    if request.user == game.attacker:
         attacker_in = True # 로그인한 유저가 attacker
     else:
         attacker_in = False # 로그인한 유저가 defender

@@ -1,16 +1,6 @@
 from tkinter import CASCADE
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from random import *
-
-class User(AbstractUser):
-
-    name = models.CharField(verbose_name="이름", max_length=20)
-    point = 0
-
-    def __str__(self):
-        return self.name # 내장되어 있는 username도 가능
-
 
 class Game(models.Model): # ModelForm 만들 때 field 수동으로 설정 (not "__all__")
 
