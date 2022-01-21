@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+  <h1>Log in</h1>
+
+  <form method="POST" action="{% url 'cardgame:login' %}">
+    {% csrf_token %} 아이디: <br />
+    <input name="username" type="text" />
+    <br />
+    비밀번호: <br />
+    <input name="password" type="password" />
+    <!-- <br>
+        비밀번호 확인: <br>
+        <input name="password2" type="password">
+        <br>
+        <br><br> -->
+    <input type="submit" value="Login" />
+  </form>
+</div>
+
+{% endblock %}
