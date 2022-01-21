@@ -64,9 +64,7 @@ def attack(request):
 
     else:
         form = AttackForm()
-        print(Profile.objects.all())
         form.fields["defender"].queryset = Profile.objects.all().exclude(user=request.user)
-        # form.fields["defender"].queryset = User.objects.all().exclude(id=request.user.id)
         return render(request, "cardgame/attack.html", {"form":form})
 
 def detail(request, pk):
@@ -91,9 +89,8 @@ def defend(request, pk):
     if request.method == "POST":
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
+            form.save()
             game_win(game)
-            game = form.save()
-            
             return redirect("cardgame:detail", pk=game.id)
 
     else:
@@ -106,25 +103,43 @@ def game_win(game):
             game.winner = game.attacker
             game.attacker.score += game.attacker_num
             game.defender.score -= game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
         
         elif game.attacker_num == game.defender_num:
             game.winner = None
+            game.save()
+            game.attacker.save()
+            game.defender.save()
 
         else:
             game.winner = game.defender
             game.attacker.score -= game.attacker_num
             game.defender.score += game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
 
     else:
         if game.attacker_num < game.defender_num:
             game.winner = game.attacker
             game.attacker.score += game.attacker_num
             game.defender.score -= game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
         
         elif game.attacker_num == game.defender_num:
             game.winner = None
+            game.save()
+            game.attacker.save()
+            game.defender.save()
 
         else:
             game.winner = game.defender
             game.attacker.score -= game.attacker_num
             game.defender.score += game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
