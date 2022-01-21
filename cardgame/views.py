@@ -158,3 +158,9 @@ def ranking(request):
     ctx = {'users':users, 'index':index}
 
     return render(request, template_name='cardgame/ranking.html', context=ctx)
+
+def list(request):
+    user=request.user
+    game = Game.objects.all()
+    ctx = {'game': game,'user': user}
+    return render(request, "cardgame/list.html", context=ctx)
