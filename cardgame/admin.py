@@ -1,10 +1,7 @@
 from django.contrib import admin
 from .models import *
 
-# @admin.register(Game)
-# class GameAdmin(admin.ModelAdmin):
-#     list_display = ['attacker', 'defender', 'winner']
-#     list_display_links = ['attacker', 'defender', 'winner']
-#     search_fields = ['attacker__user.username', 'defender__user.username', 'winner__user.username']
 admin.site.register(Profile)
-admin.site.register(Game)
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+    search_fields = ['attacker__user__username', 'defender__user__username', 'winner__user__username']
