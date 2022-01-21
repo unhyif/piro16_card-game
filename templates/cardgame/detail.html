@@ -64,12 +64,14 @@
     {% if game.winner == game.defender %}
     <p>결과 : 승리</p>
     <p>점수 : +{{game.defender_num}}점</p>
-    {% else %}
+    {% elif game.winner == game.attacker %}
     <p>결과 : 패배</p>
     <p>점수 : -{{game.defender_num}}점</p>
+    {% else %}
+    <p>결과 : 무승부</p>
+    {% endif %}
     
     <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
-    {% endif %}
     {% endif %} {% endif %}
 </div>
 {% if game.winner == game.defender %}
