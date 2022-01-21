@@ -6,4 +6,6 @@
 </h4>
 {% if attacker_in %}
 <p>나 : {{game.attacker_num}}</p>
-{% endif %} {% endblock %}
+{% endif %}
+<button><a href="{% url 'cardgame:delete' game.id %}">게임 취소</a></button>
+{% endblock %}
