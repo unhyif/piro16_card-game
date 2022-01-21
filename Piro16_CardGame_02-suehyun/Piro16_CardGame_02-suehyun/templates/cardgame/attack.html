@@ -1,0 +1,6 @@
+{% extends "base.html" %} {% block content %}
+<form action="" method="POST">
+  {% csrf_token %} {{form}}
+  <button type="submit" class="save btn btn-default">공격하기</button>
+</form>
+{% endblock %}
