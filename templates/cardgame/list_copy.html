@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block content %}
+<div class="curr-player">현재 플레이어: {{login_user}}</div>
+
+{% for game in related_games %}
+<div class="game-list">
+    {{game}} <!-- 게임 이름 -->
+
+
+    {% if not game.winner %} <!-- 끝나지 않은 게임(아직 반격이 안 된) -->
+        {% if login_user == game.attacker %}
+        <h6>진행중...</h6> <h6><a href="{% url 'cardgame:delete' game.id %}">게임 취소</a></h6>
+        {% else %}
+        <h6>진행중...</h6> <h6><a href="{% url 'cardgame:defend' game.id %}">반격하기</a></h6>
+        {% endif %}
+
+    {% else %} <!-- 승패 결정난 게임 -->
+        <span>결과 : {% if login_user == game.winner %}승리{% else %}패배{% endif %}</span>
+
+    {% endif %}
+
+
+    <a href="{% url 'cardgame:detail' game.id %}"><span class="to-game-detail">게임정보</span></a>
+</div>
+{% endfor %} {% endblock %}
