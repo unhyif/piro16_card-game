@@ -3,7 +3,7 @@
 <div>
   <a href="#"><h3>PIROGRAM CARDGAME</h3></a>
   <a href="/attack"><button>게임하기</button></a>
-  <a href="#"><button>전적(랭킹)보기</button></a>
+  <a href="{% url 'cardgame:list' %}"><button>전적(랭킹)보기</button></a>
   <a href="{% url 'cardgame:logout' %}"><button>로그아웃</button></a>
 </div>
 
