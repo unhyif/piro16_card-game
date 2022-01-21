@@ -1,24 +1,21 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="container">
-    <h1>Log in</h1>
+  <h1>Log in</h1>
 
-    <form method="POST" action="{% url 'login' %}">
-        {% csrf_token %}
-        아이디: <br>
-        <input name="username" type="text">
-        <br>
-        비밀번호: <br>
-        <input name="password1" type="password">
-        <br>
+  <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %} 아이디: <br />
+    <input name="username" type="text" />
+    <br />
+    비밀번호: <br />
+    <input name="password" type="password" />
+    <!-- <br>
         비밀번호 확인: <br>
         <input name="password2" type="password">
         <br>
-        <br><br>
-        <input type="submit" value="Sign Up">
-    </form>
+        <br><br> -->
+    <input type="submit" value="Login" />
+  </form>
 </div>
 
 {% endblock %}

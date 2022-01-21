@@ -10,10 +10,10 @@ from random import *
 
 def signup(request):
     if request.method == "POST":
-        if request.POST["password"] == request.POST["password2"]:
+        if request.POST.get("password1") == request.POST.get("password2"):
             user = User.objects.create_user(
-                username = request.POST["username"],
-                password = request.POST["password1"]
+                username = request.POST.get("username"),
+                password = request.POST.get("password1")
             )
             auth.login(request, user)
             return redirect('/')
@@ -22,12 +22,12 @@ def signup(request):
 
 def login(request):
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('main')
+            return render(request, 'cardgame/main.html', {'user':user})
         else:
             return render(request, 'cardgame/login.html', {'error':'username or password is incorrect'})
     else:
