@@ -92,3 +92,15 @@ def delete(request, pk):
 
    return redirect('cardgame:main')
       # !!!!! list 페이지 만들고나서 redirect 수정하기
+def defend(request,pk):
+    game= get_object_or_404(Game, pk=pk)
+###########defend###########수정해야함 form을..
+    if request.method == "POST":
+        form = DefendForm(request.POST, instance=game)
+        if form.is_valid():
+            form.save()
+            return redirect("cardgame:detail", pk=game.pk) # 게임 디테일 보여줄 건지 전적 보여줄 건지?? game.id
+
+        form = DefendForm()
+    else:
+        return render(request, "cardgame/defend.html", {"form":form})
