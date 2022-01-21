@@ -72,10 +72,29 @@ def detail(request, pk):
     return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in})
         # templete에서 {% if attacker_in %} {% else %} 를 통해, 게임 정보를 서술할 때 "나"의 입장이 attacker 입장인지 defender 입장인지 식별 가능함
 
+def delete(request, pk):
+   game = get_object_or_404(Game, id=pk)
+   
+   print('===== 삭제 전 =====\n')
+   print("공격자", game.attacker)
+   print("반격자", game.defender)
+   print("공격자 번호", game.attacker_num)
+   print("반격자 번호", game.defender_num)
 
-###########defend###########수정해야함 form을..
+   game.delete()
+   print(game)
+
+   print('===== 삭제 후 =====\n')
+   print("공격자", game.attacker)
+   print("반격자", game.defender)
+   print("공격자 번호", game.attacker_num)
+   print("반격자 번호", game.defender_num)
+
+   return redirect('cardgame:main')
+      # !!!!! list 페이지 만들고나서 redirect 수정하기
 def defend(request,pk):
     game= get_object_or_404(Game, pk=pk)
+###########defend###########수정해야함 form을..
     if request.method == "POST":
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
