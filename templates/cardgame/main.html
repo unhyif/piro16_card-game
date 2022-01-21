@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 로그인이 된 후 보여지는 main 화면 -->
+<div>
+    <a href="#"><h3>PIROGRAM CARDGAME</h3></a>
+    <a href="#"><button>게임하기</button></a>
+    <a href="#"><button>전적(랭킹)보기</button></a>
+    <a href="{% url 'logout' %}"><button>로그아웃</button></a>
+</div>
+
+<div>
+    <p>피로그래머와 함께하는 카드게임!</p>
+    <!-- 로그인한 유저 이름 가져와야함 -->
+    <p> (User)님 로그인 중</p>
+    <a href="#"><button>게임하기</button></a>
+    <a href="#"><button>전적(랭킹)보기</button></a>
+</div>
+{% endblock %}
