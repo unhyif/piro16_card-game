@@ -1,12 +1,45 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    {% block content %} {% endblock %}
-  </body>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+	<title>피로그래밍 카드게임</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" href="#">Pirogramming CardGame</a>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'cardgame:attack' %}">게임하기</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">랭킹보기</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'cardgame:logout' %}">로그아웃</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<br />
+	{% block content %} {% endblock %}
+</body>
+
 </html>
