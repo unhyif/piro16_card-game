@@ -30,15 +30,15 @@
     <p>점수 : -{{game.attacker_num}}점</p>
     <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
 </div>
-{% if game.winner == game.attacker %}
-<p>결과 : 승리</p>
-<p>점수 : +{{game.attacker_num}}점</p>
-{% elif game.winner == game.defender %}
-<p>결과 : 패배</p>
-<p>점수 : -{{game.attacker_num}}점</p>
-{% else %}
-<p>결과 : 무승부</p>
-{% endif %}
+    {% if game.winner == game.attacker %}
+    <p>결과 : 승리</p>
+    <p>점수 : +{{game.attacker_num}}점</p>
+    {% elif game.winner == game.defender %}
+    <p>결과 : 패배</p>
+    <p>점수 : -{{game.attacker_num}}점</p>
+    {% else %}
+    <p>결과 : 무승부</p>
+    {% endif %}
 {% endif %} {% endif %}
 
 <!-- defender가 로그인했을 때 -->
@@ -64,23 +64,13 @@
     {% if game.winner == game.defender %}
     <p>결과 : 승리</p>
     <p>점수 : +{{game.defender_num}}점</p>
-    {% else %}
+    {% elif game.winner == game.attacker %}
     <p>결과 : 패배</p>
     <p>점수 : -{{game.defender_num}}점</p>
-    
-    <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
+    {% else %}
+    <p>결과 : 무승부</p>
     {% endif %}
-    {% endif %} {% endif %}
-</div>
-{% if game.winner == game.defender %}
-<p>결과 : 승리</p>
-<p>점수 : +{{game.defender_num}}점</p>
-{% elif game.winner == game.attacker %}
-<p>결과 : 패배</p>
-<p>점수 : -{{game.defender_num}}점</p>
-{% else %}
-<p>결과 : 무승부</p>
-{% endif %}
+    <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
 {% endif %} {% endif %}
-<a href="{% url 'cardgame:list' %}">전적목록</a>
+</div>
 {% endblock %}
