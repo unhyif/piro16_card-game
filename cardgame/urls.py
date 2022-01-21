@@ -13,8 +13,6 @@ urlpatterns = [
     path('defend/<int:pk>/', views.defend, name='defend'), ##defned
     path('detail/<int:pk>/', views.detail, name='detail'),
     #path('list/', views.list, name='list'),
-    #path('delete/<int:pk>/', views.delete, name='delete'),
-    #path('delete/<int:pk>/', views.delete, name='delete'),
+    path('delete/<int:pk>/', views.delete, name='delete'),
     #path('ranking/', views.ranking, name='ranking'),
-
 ]

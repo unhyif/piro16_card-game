@@ -26,6 +26,7 @@ def login(request):
         password = request.POST.get('password')
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
+            print(1)
             auth.login(request, user)
             return render(request, 'cardgame/main.html', {'user':user})
         else:
@@ -74,33 +75,52 @@ def detail(request, pk):
 
 def delete(request, pk):
    game = get_object_or_404(Game, id=pk)
-   
-   print('===== 삭제 전 =====\n')
-   print("공격자", game.attacker)
-   print("반격자", game.defender)
-   print("공격자 번호", game.attacker_num)
-   print("반격자 번호", game.defender_num)
-
    game.delete()
-   print(game)
-
-   print('===== 삭제 후 =====\n')
-   print("공격자", game.attacker)
-   print("반격자", game.defender)
-   print("공격자 번호", game.attacker_num)
-   print("반격자 번호", game.defender_num)
-
    return redirect('cardgame:main')
       # !!!!! list 페이지 만들고나서 redirect 수정하기
+
 def defend(request,pk):
     game= get_object_or_404(Game, pk=pk)
-###########defend###########수정해야함 form을..
+
     if request.method == "POST":
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            return redirect("cardgame:detail", pk=game.pk) # 게임 디테일 보여줄 건지 전적 보여줄 건지?? game.id
+            game_win(game.id)
+            return redirect("cardgame:detail", pk=game.pk)
 
-        form = DefendForm()
     else:
+        form = DefendForm()
         return render(request, "cardgame/defend.html", {"form":form})
+
+
+def game_win(pk):
+    game = get_object_or_404(Game, id=pk)
+
+    if game.rule == 'BIG':
+        if game.attacker_num > game.defender_num:
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
+        
+        elif game.attacker_num == game.defender_num:
+            game.winner = None
+
+        else:
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score += game.defender_num
+
+    else:
+        if game.attacker_num < game.defender_num:
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score == game.defender_num
+        
+        elif game.attacker_num == game.defender_num:
+            game.winner = None
+
+        else:
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
