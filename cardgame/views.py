@@ -6,6 +6,10 @@ from .models import *
 from .forms import *
 from random import *
 
+def loginuser(request):
+    return Profile.objects.get(user=request.user)
+
+
 # Authentication
 
 def signup(request):
@@ -24,10 +28,8 @@ def login(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
-            print(1)
             auth.login(request, user)
             return render(request, 'cardgame/main.html', {'user':user})
         else:
@@ -53,21 +55,21 @@ def attack(request):
         rule_list = ["BIG", "SMALL"]
         chosen_rule = choice(rule_list)
 
-        game = Game(attacker=request.user, rule=chosen_rule) # Game object 생성
+        game = Game(attacker=loginuser(request), rule=chosen_rule) # Game object 생성
         form = AttackForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            return redirect("cardgame:detail", game.id) # 게임 디테일 보여줄 건지 전적 보여줄 건지??
+            return redirect("cardgame:detail", game.id)
 
     else:
         form = AttackForm()
-        form.fields["defender"].queryset = User.objects.all().exclude(id=request.user.id)
+        form.fields["defender"].queryset = Profile.objects.all().exclude(user=request.user)
         return render(request, "cardgame/attack.html", {"form":form})
 
 def detail(request, pk):
     game = get_object_or_404(Game, id=pk)
     
-    if request.user == game.attacker:
+    if loginuser(request) == game.attacker:
         attacker_in = True # 로그인한 유저가 attacker
     else:
         attacker_in = False # 로그인한 유저가 defender
@@ -80,23 +82,21 @@ def delete(request, pk):
    return redirect('cardgame:main')
       # !!!!! list 페이지 만들고나서 redirect 수정하기
 
-def defend(request,pk):
-    game= get_object_or_404(Game, pk=pk)
+def defend(request, pk):
+    game = get_object_or_404(Game, id=pk)
 
     if request.method == "POST":
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            game_win(game.id)
-            return redirect("cardgame:detail", pk=game.pk)
+            game_win(game)
+            return redirect("cardgame:detail", pk=game.id)
 
     else:
         form = DefendForm()
         return render(request, "cardgame/defend.html", {"form":form})
 
-
-def game_win(pk):
-    game = get_object_or_404(Game, id=pk)
+def game_win(game):
 
     if game.rule == 'BIG':
         if game.attacker_num > game.defender_num:
@@ -114,14 +114,14 @@ def game_win(pk):
 
     else:
         if game.attacker_num < game.defender_num:
-            game.winner = game.defender
-            game.attacker.score -= game.attacker_num
-            game.defender.score == game.defender_num
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
         
         elif game.attacker_num == game.defender_num:
             game.winner = None
 
         else:
-            game.winner = game.attacker
-            game.attacker.score += game.attacker_num
-            game.defender.score -= game.defender_num
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score += game.defender_num
