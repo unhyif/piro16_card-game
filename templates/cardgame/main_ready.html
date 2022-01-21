@@ -7,12 +7,21 @@
 	</a>
 	<a href="{% url 'cardgame:signup' %}"><button>회원가입</button></a>
 	<a href="{% url 'cardgame:login' %}"><button>로그인</button></a>
+    <a href="{% url 'cardgame:main' %}"><h3 class="main-intro">PIROGRAM CARDGAME</h3></a>
+    <a href="{% url 'cardgame:signup' %}"><button class="game-btn-2">회원가입</button></a>
+    <a href="{% url 'cardgame:login' %}"><button class="game-btn-2">로그인</button></a>
 </div>
 
 <div>
 	<!-- 로그인 전 메인화면입니다 -->
 	<p>피로그래머와 함께하는 카드게임!</p>
 	<p>회원가입을 하거나 로그인을 해서 게임을 즐겨보세요!</p>
+    <!-- 로그인 전 메인화면입니다 -->
+    <p class="ready-intro">
+        피로그래머와 함께하는 카드게임!
+        <br>
+        회원가입을 하거나 로그인을 해서 게임을 즐겨보세요!
+    </p>
 </div>
 
 {% endblock %}

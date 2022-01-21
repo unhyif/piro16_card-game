@@ -1,13 +1,13 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="container">
-  <h1>Log in</h1>
+  <h1 class="form-title">Log in</h1>
 
-  <form method="POST" action="{% url 'cardgame:login' %}">
-    {% csrf_token %} 아이디: <br />
+  <form class="login-form" method="POST" action="{% url 'cardgame:login' %}">
+    {% csrf_token %} 아이디:
     <input name="username" type="text" />
-    <br />
-    비밀번호: <br />
+    
+    비밀번호:
     <input name="password" type="password" />
     <!-- <br>
         비밀번호 확인: <br>
