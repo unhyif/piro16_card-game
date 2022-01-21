@@ -91,8 +91,9 @@ def defend(request, pk):
     if request.method == "POST":
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
-            form.save()
             game_win(game)
+            game = form.save()
+            
             return redirect("cardgame:detail", pk=game.id)
 
     else:
