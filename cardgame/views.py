@@ -121,7 +121,7 @@ def game_win(game):
             game.attacker.save()
             game.defender.save()
 
-        game.save()
+        # game.save()
 
     else:
         if game.attacker_num < game.defender_num:
@@ -145,3 +145,11 @@ def game_win(game):
             game.save()
             game.attacker.save()
             game.defender.save()
+
+def ranking(request):
+
+    users = Profile.objects.all().order_by('-score')
+    index = users.count
+    ctx = {'users':users, 'index':index}
+
+    return render(request, template_name='cardgame/ranking.html', context=ctx)
