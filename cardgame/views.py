@@ -19,6 +19,7 @@ def signup(request):
                 username = request.POST.get("username"),
                 password = request.POST.get("password1")
             )
+            Profile.objects.create(user=user)
             auth.login(request, user)
             return redirect('/')
         return render(request, 'cardgame/signup.html')
@@ -63,7 +64,9 @@ def attack(request):
 
     else:
         form = AttackForm()
+        print(Profile.objects.all())
         form.fields["defender"].queryset = Profile.objects.all().exclude(user=request.user)
+        # form.fields["defender"].queryset = User.objects.all().exclude(id=request.user.id)
         return render(request, "cardgame/attack.html", {"form":form})
 
 def detail(request, pk):
@@ -97,7 +100,6 @@ def defend(request, pk):
         return render(request, "cardgame/defend.html", {"form":form})
 
 def game_win(game):
-
     if game.rule == 'BIG':
         if game.attacker_num > game.defender_num:
             game.winner = game.attacker
