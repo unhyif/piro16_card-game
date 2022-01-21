@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models
 from random import *
 from django.contrib.auth.models import User
-
 # User model
 
 class Profile(models.Model):

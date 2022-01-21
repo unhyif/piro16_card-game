@@ -32,6 +32,7 @@ class Migration(migrations.Migration):
                 ('attacker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attack', to='cardgame.profile', verbose_name='공격자')),
                 ('defender', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='defend', to='cardgame.profile', verbose_name='수비자')),
                 ('winner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cardgame.profile', verbose_name='승자')),
+>>>>>>> feature/Jihyun
             ],
         ),
     ]

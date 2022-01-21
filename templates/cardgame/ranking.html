@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+<h1>명예의 전당</h1>
+<hr/>
+{% for user in users %}
+<p><span>{{forloop.counter}}등</span> <span>{{ user.user.username }} </span> <span>총점수: {{ user.score }}점</span></p>
+{% endfor %}
+</div>
+{% endblock %}

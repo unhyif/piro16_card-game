@@ -14,5 +14,5 @@ urlpatterns = [
     path('detail/<int:pk>/', views.detail, name='detail'),
     #path('list/', views.list, name='list'),
     path('delete/<int:pk>/', views.delete, name='delete'),
-    #path('ranking/', views.ranking, name='ranking'),
+    path('ranking/', views.ranking, name='ranking'),
 ]
