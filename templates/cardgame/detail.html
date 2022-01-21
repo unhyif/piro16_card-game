@@ -1,31 +1,35 @@
 {% extends "base.html" %} {% block content %}
-<h2>{{game}}</h2>
+<h2 class="curr-game">{{game}}</h2>
 
 <!-- attacker가 로그인했을 때 -->
 {% if attacker_in %}
   {% if status == 1 %}
 <!-- 공격만 한 상태 -->
-<div>
+<div class="game-detail">
   <p>진행중...</p>
   <p>나 : {{game.attacker_num}}</p>
-  <a href="{% url 'cardgame:delete' game.id %}">게임 취소</a>
+  <a class="to-list" href="{% url 'cardgame:delete' game.id %}">게임 취소</a>
+  <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
 </div>
   {% else %}
 <!-- 승패 난 상태 -->
-<h4>
-    {% if game.rule == "BIG" %}숫자가 더 큰 사람이 대결에서 이깁니다
-    {% else %}숫자가 더 작은 사람이 이깁니다{% endif %}
-</h4>
-<div>
-  <p>나 : {{game.attacker_num}}</p>
-  <p>{{game.defender}} : {{game.defender_num}}</p>
+<div class="game-detail">
+    <h4>
+        {% if game.rule == "BIG" %}숫자가 더 큰 사람이 대결에서 이깁니다
+        {% else %}숫자가 더 작은 사람이 이깁니다{% endif %}
+    </h4>
+    <div>
+    <p>나 : {{game.attacker_num}}</p>
+    <p>{{game.defender}} : {{game.defender_num}}</p>
+    </div>
+    {% if game.winner == game.attacker %}
+    <p>결과 : 승리</p>
+    <p>점수 : +{{game.attacker_num}}점</p>
+    {% else %}
+    <p>결과 : 패배</p>
+    <p>점수 : -{{game.attacker_num}}점</p>
+    <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
 </div>
-{% if game.winner == game.attacker %}
-<p>결과 : 승리</p>
-<p>점수 : +{{game.attacker_num}}점</p>
-{% else %}
-<p>결과 : 패배</p>
-<p>점수 : -{{game.attacker_num}}점</p>
 {% endif %}
 {% endif %} {% endif %}
 
@@ -33,27 +37,31 @@
 {% if not attacker_in %}
   {% if status == 1 %}
 <!-- 공격만 한 상태 -->
-<div>
+<div class="game-detail">
   <p>진행중...</p>
   <p>상대방 : {{game.attacker_num}}</p>
+  <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
 </div>
   {% else %}
 <!-- 승패 난 상태 -->
-<h4>
-    {% if game.rule == "BIG" %}숫자가 더 큰 사람이 대결에서 이깁니다
-    {% else %}숫자가 더 작은 사람이 이깁니다{% endif %}
-</h4>
-<div>
-  <p>나 : {{game.defender_num}}</p>
-  <p>{{game.attacker}} : {{game.attacker_num}}</p>
+<div class="game-detail">
+    <h4>
+        {% if game.rule == "BIG" %}숫자가 더 큰 사람이 대결에서 이깁니다
+        {% else %}숫자가 더 작은 사람이 이깁니다{% endif %}
+    </h4>
+    <div>
+    <p>나 : {{game.defender_num}}</p>
+    <p>{{game.attacker}} : {{game.attacker_num}}</p>
+    </div>
+    {% if game.winner == game.defender %}
+    <p>결과 : 승리</p>
+    <p>점수 : +{{game.defender_num}}점</p>
+    {% else %}
+    <p>결과 : 패배</p>
+    <p>점수 : -{{game.defender_num}}점</p>
+    
+    <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
+    {% endif %}
+    {% endif %} {% endif %}
 </div>
-{% if game.winner == game.defender %}
-<p>결과 : 승리</p>
-<p>점수 : +{{game.defender_num}}점</p>
-{% else %}
-<p>결과 : 패배</p>
-<p>점수 : -{{game.defender_num}}점</p>
-{% endif %}
-{% endif %} {% endif %}
-<a href="{% url 'cardgame:list' %}">전적목록</a>
 {% endblock %}

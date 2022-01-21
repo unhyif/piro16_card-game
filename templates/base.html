@@ -25,14 +25,14 @@
         </div>
 
         <div class="navbar-right">
+            {% if user.is_authenticated %}
             <span class="nav-item">
                 <a class="nav-link" href="{% url 'cardgame:attack' %}">게임하기</a>
             </span>
             <span class="nav-item">
                 <a class="nav-link" href="{% url 'cardgame:ranking' %}">랭킹보기</a>
             </span>
-
-            <span class="nav-item">{% if user.is_authenticated %}
+            <span class="nav-item">
                 <a class="nav-link" href="{% url 'cardgame:logout' %}">로그아웃</a>
                 {% else %}
                 <a class="nav-link" href="{% url 'cardgame:login' %}">로그인</a>

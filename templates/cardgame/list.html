@@ -1,10 +1,10 @@
 {% extends "base.html" %} 
 {% block content %}
 
-<div>현재 플레이어: {{user}} </div>
+<div class="curr-player">현재 플레이어: {{user}} </div>
 
     {%for list in game %}
-    <div>
+    <div class="game-list">
         {% if user == list.attacker.user %} <!--현재 유저가 공격자라면,-->
             {{list.id}} - {{list.attacker}} VS {{list.defender}} <!--1- 사용자1 VS 사용자2-->
 
@@ -29,7 +29,7 @@
                 {% endif %}
 
             {% endif %}
-            <span><a href="{% url 'cardgame:detail' list.id %}">게임정보</a></span>
+            <a href="{% url 'cardgame:detail' list.id %}"><span class="to-game-detail">게임정보</span></a>
 
         {% endif %}
 
@@ -62,7 +62,7 @@
                     {% endif %}
     
                 {% endif %}
-                <span><a href="{% url 'cardgame:detail' list.id %}">게임정보</a></span>
+                <a href="{% url 'cardgame:detail' list.id %}"><span class="to-game-detail">게임정보</span></a>
                 
         {% endif %}
 
