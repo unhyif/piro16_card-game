@@ -121,6 +121,8 @@ def game_win(game):
             game.attacker.save()
             game.defender.save()
 
+        game.save()
+
     else:
         if game.attacker_num < game.defender_num:
             game.winner = game.attacker
