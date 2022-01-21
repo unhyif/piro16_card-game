@@ -74,14 +74,12 @@ def detail(request, pk):
         attacker_in = True # 로그인한 유저가 attacker
     else:
         attacker_in = False # 로그인한 유저가 defender
-    return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in})
-        # templete에서 {% if attacker_in %} {% else %} 를 통해, 게임 정보를 서술할 때 "나"의 입장이 attacker 입장인지 defender 입장인지 식별 가능함
+    return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in, "status":status(pk)})
 
 def delete(request, pk):
    game = get_object_or_404(Game, id=pk)
    game.delete()
-   return redirect('cardgame:main')
-      # !!!!! list 페이지 만들고나서 redirect 수정하기
+   return redirect('cardgame:list')
 
 def defend(request, pk):
     game = get_object_or_404(Game, id=pk)
@@ -97,6 +95,7 @@ def defend(request, pk):
         form = DefendForm()
         return render(request, "cardgame/defend.html", {"form":form})
 
+
 def game_win(game):
     if game.rule == 'BIG':
         if game.attacker_num > game.defender_num:
@@ -110,8 +109,6 @@ def game_win(game):
         elif game.attacker_num == game.defender_num:
             game.winner = None
             game.save()
-            game.attacker.save()
-            game.defender.save()
 
         else:
             game.winner = game.defender
@@ -135,8 +132,6 @@ def game_win(game):
         elif game.attacker_num == game.defender_num:
             game.winner = None
             game.save()
-            game.attacker.save()
-            game.defender.save()
 
         else:
             game.winner = game.defender
@@ -146,6 +141,15 @@ def game_win(game):
             game.attacker.save()
             game.defender.save()
 
+
+def status(pk):
+    game = get_object_or_404(Game, id=pk)
+    
+    if not game.defender_num: # 공격만 한 상태
+        return 1
+    else: # 승패 난 상태
+        return 2
+
 def ranking(request):
 
     users = Profile.objects.all().order_by('-score')
@@ -153,3 +157,9 @@ def ranking(request):
     ctx = {'users':users, 'index':index}
 
     return render(request, template_name='cardgame/ranking.html', context=ctx)
+
+def list(request):
+    user=request.user
+    game = Game.objects.all()
+    ctx = {'game': game,'user': user}
+    return render(request, "cardgame/list.html", context=ctx)

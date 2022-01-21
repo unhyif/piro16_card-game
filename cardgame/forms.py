@@ -16,5 +16,5 @@ class DefendForm(forms.ModelForm):
         model = Game
         fields = ['defender_num']
         labels = {
-            'defender_num': _('내가 고른 카드(defend)'),
+            'defender_num': _('내가 고른 카드'),
         }

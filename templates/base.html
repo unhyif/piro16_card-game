@@ -16,7 +16,12 @@
 <body>
    <nav class="navbar">
         <div class="navbar-left">
+            {% if user.is_authenticated %}
             <a class="nav-title" href="{% url 'cardgame:main' %}">Pirogramming CardGame</a>
+            {% else %}
+            <a class="nav-title" href="{% url 'cardgame:main_ready' %}">Pirogramming CardGame</a>
+            {% endif %}
+
         </div>
 
         <div class="navbar-right">
@@ -26,8 +31,12 @@
             <span class="nav-item">
                 <a class="nav-link" href="{% url 'cardgame:ranking' %}">랭킹보기</a>
             </span>
-            <span class="nav-item">
+
+            <span class="nav-item">{% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'cardgame:logout' %}">로그아웃</a>
+                {% else %}
+                <a class="nav-link" href="{% url 'cardgame:login' %}">로그인</a>
+                {% endif %}
             </span>
         </div>
       
