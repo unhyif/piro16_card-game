@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = 'cardgame'
+
 urlpatterns = [
     path('', views.main_ready, name = 'main_ready'),
     path('main/', views.main, name = 'main'),
@@ -8,5 +10,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('attack/', views.attack, name="attack"),
-    path('detail/<int:pk>', views.detail, name="detail"),
+    path('detail/<int:pk>/', views.detail, name="detail"),
 ]
