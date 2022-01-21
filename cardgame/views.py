@@ -79,8 +79,7 @@ def detail(request, pk):
 def delete(request, pk):
    game = get_object_or_404(Game, id=pk)
    game.delete()
-   return redirect('cardgame:main')
-      # !!!!! list 페이지 만들고나서 redirect 수정하기
+   return redirect('cardgame:list')
 
 def defend(request, pk):
     game = get_object_or_404(Game, id=pk)
