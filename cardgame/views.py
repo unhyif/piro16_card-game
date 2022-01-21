@@ -74,8 +74,7 @@ def detail(request, pk):
         attacker_in = True # 로그인한 유저가 attacker
     else:
         attacker_in = False # 로그인한 유저가 defender
-    return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in})
-        # templete에서 {% if attacker_in %} {% else %} 를 통해, 게임 정보를 서술할 때 "나"의 입장이 attacker 입장인지 defender 입장인지 식별 가능함
+    return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in, "status":status(pk)})
 
 def delete(request, pk):
    game = get_object_or_404(Game, id=pk)
@@ -96,6 +95,7 @@ def defend(request, pk):
     else:
         form = DefendForm()
         return render(request, "cardgame/defend.html", {"form":form})
+
 
 def game_win(game):
     if game.rule == 'BIG':
@@ -139,3 +139,12 @@ def game_win(game):
             game.save()
             game.attacker.save()
             game.defender.save()
+
+
+def status(pk):
+    game = get_object_or_404(Game, id=pk)
+    
+    if not game.defender_num: # 공격만 한 상태
+        return 1
+    else: # 승패 난 상태
+        return 2
