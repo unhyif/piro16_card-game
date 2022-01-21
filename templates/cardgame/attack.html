@@ -1,6 +1,8 @@
-{% extends "base.html" %} {% block content %}
-<form action="" method="POST">
+{% extends "base.html" %} 
+{% block content %}
+
+<form class="attack-form" action="" method="POST">
   {% csrf_token %} {{form}}
-  <button type="submit" class="save btn btn-default">공격하기</button>
+  <button class="attack-button" type="submit" class="save">공격하기</button>
 </form>
 {% endblock %}
