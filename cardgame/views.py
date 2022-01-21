@@ -87,7 +87,7 @@ def defend(request, pk):
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            game_win(game)
+            get_winner(game)
             return redirect("cardgame:detail", pk=game.id)
 
     else:
@@ -95,7 +95,7 @@ def defend(request, pk):
         return render(request, "cardgame/defend.html", {"form":form})
 
 
-def game_win(game):
+def get_winner(game):
     if game.rule == 'BIG':
         if game.attacker_num > game.defender_num:
             game.winner = game.attacker
@@ -116,8 +116,6 @@ def game_win(game):
             game.save()
             game.attacker.save()
             game.defender.save()
-
-        # game.save()
 
     else:
         if game.attacker_num < game.defender_num:
@@ -150,12 +148,16 @@ def status(pk):
         return 2
 
 def ranking(request):
-
     users = Profile.objects.all().order_by('-score')
     index = users.count
     ctx = {'users':users, 'index':index}
 
     return render(request, template_name='cardgame/ranking.html', context=ctx)
+
+
+# def list(request):
+#     related_games = loginuser(request).attack.all().union(loginuser(request).defend.all())
+#     return render(request, "cardgame/list.html", {"related_games":related_games, })  
 
 def list(request):
     user=request.user
