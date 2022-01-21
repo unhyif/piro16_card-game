@@ -110,8 +110,6 @@ def game_win(game):
         elif game.attacker_num == game.defender_num:
             game.winner = None
             game.save()
-            game.attacker.save()
-            game.defender.save()
 
         else:
             game.winner = game.defender
@@ -133,8 +131,6 @@ def game_win(game):
         elif game.attacker_num == game.defender_num:
             game.winner = None
             game.save()
-            game.attacker.save()
-            game.defender.save()
 
         else:
             game.winner = game.defender
