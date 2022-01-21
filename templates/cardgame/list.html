@@ -1,15 +1,77 @@
 {% extends "base.html" %} 
-
 {% block content %}
 
-<table>
-{% for game in games%}
-<tr>
-    <td>{{game.id}}</td>
-    <td></td>
-    <td></td>
-</tr>
-{% endfor %}
-</table>
+<div>현재 플레이어: {{user}} </div>
+
+    {%for list in game %}
+    <div>
+        {% if user == list.attacker.user %} <!--현재 유저가 공격자라면,-->
+            {{list.id}} - {{list.attacker}} VS {{list.defender}} <!--1- 사용자1 VS 사용자2-->
+
+            {% if list.defender_num == null %}  <!--방어자값이 null이라면, 진행중. (else) null이 아니라면 승리 or 패배 or 무승부-->
+                <h6>진행중...</h6> <h6><a href="{% url 'cardgame:delete' list.id %}">게임 취소</a></h6> 
+
+
+            {% else %} <!--방어자 값이 null이 아닐 때-->
+                {% if list.attacker_num == list.defender_num %} 
+                    <span>무승부</span>
+                
+
+                {% elif list.attacker_num > list.defender_num %}
+                    <span>결과: 승리</span>
+
+                {% else %}
+                    <span>결과: 패배</span>
+
+                
+
+
+                {% endif %}
+
+            {% endif %}
+            <span><a href="{% url 'cardgame:detail' list.id %}">게임정보</a></span>
+
+        {% endif %}
+
+
+
+    
+        <!--if user==list.defender 는 오류난다.-->
+        
+        {% if user == list.defender.user %} <!--현재 유저가 방어자라면,--> <!--방어자 값이 null값이면 반격하기, 아니라면 결과값-->
+            {{list.id}} - {{list.attacker}} VS {{list.defender}} <!--1- 사용자1 VS 사용자2-->
+            <!--반격하기 버튼, 게임정보 버튼 => 둘다 결과페이지 가져옴-->
+
+            {% if list.defender_num == null %} 
+                <h6>진행중...</h6> <h6><a href="{% url 'cardgame:defend' list.id %}">반격하기</a></h6>
+
+            
+                {% else %} <!--방어자 값이 null이 아닐 때-->
+                    {% if list.attacker_num == list.defender_num %} 
+                        <span>무승부</span>
+
+                    {% elif list.attacker_num > list.defender_num %}
+                        <span>결과: 승리</span>
+    
+                    {% else %}
+                        <span>결과: 패배</span>
+    
+                    
+    
+    
+                    {% endif %}
+    
+                {% endif %}
+                <span><a href="{% url 'cardgame:detail' list.id %}">게임정보</a></span>
+                
+        {% endif %}
+
+
+    </div>
+
+
+
+    {% endfor %}
+
 
 {% endblock %}
