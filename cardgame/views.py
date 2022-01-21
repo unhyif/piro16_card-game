@@ -64,9 +64,7 @@ def attack(request):
 
     else:
         form = AttackForm()
-        print(Profile.objects.all())
         form.fields["defender"].queryset = Profile.objects.all().exclude(user=request.user)
-        # form.fields["defender"].queryset = User.objects.all().exclude(id=request.user.id)
         return render(request, "cardgame/attack.html", {"form":form})
 
 def detail(request, pk):
