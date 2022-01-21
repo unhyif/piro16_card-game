@@ -20,7 +20,6 @@ def signup(request):
                 password = request.POST.get("password1")
             )
             Profile.objects.create(user=user)
-            auth.login(request, user)
             return redirect('/')
         return render(request, 'cardgame/signup.html')
     return render(request, 'cardgame/signup.html')
