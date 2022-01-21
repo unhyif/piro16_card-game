@@ -25,21 +25,17 @@
     {% if game.winner == game.attacker %}
     <p>결과 : 승리</p>
     <p>점수 : +{{game.attacker_num}}점</p>
-    {% else %}
-    <p>결과 : 패배</p>
-    <p>점수 : -{{game.attacker_num}}점</p>
-    <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
-</div>
-    {% if game.winner == game.attacker %}
-    <p>결과 : 승리</p>
-    <p>점수 : +{{game.attacker_num}}점</p>
     {% elif game.winner == game.defender %}
     <p>결과 : 패배</p>
     <p>점수 : -{{game.attacker_num}}점</p>
     {% else %}
     <p>결과 : 무승부</p>
     {% endif %}
-{% endif %} {% endif %}
+    <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
+    
+    {% endif %} {% endif %}
+    
+</div>
 
 <!-- defender가 로그인했을 때 -->
 {% if not attacker_in %}
@@ -70,8 +66,9 @@
     {% else %}
     <p>결과 : 무승부</p>
     {% endif %}
-    
     <a class="to-list" href="{% url 'cardgame:list' %}">전적목록</a>
+    
     {% endif %} {% endif %}
+    
 </div>
 {% endblock %}
