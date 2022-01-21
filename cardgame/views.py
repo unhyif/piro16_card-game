@@ -35,7 +35,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('main_ready')
+    return redirect('cardgame:main_ready')
 
 def main_ready(request):
     return render(request, 'cardgame/main_ready.html')    

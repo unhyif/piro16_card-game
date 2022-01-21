@@ -2,11 +2,9 @@
 
 {% block content %}
 <div>
-	<a href="{% url 'main' %}">
-		<h3>PIROGRAM CARDGAME</h3>
-	</a>
-	<a href="{% url 'signup' %}"><button>회원가입</button></a>
-	<a href="{% url 'login' %}"><button>로그인</button></a>
+    <a href="{% url 'cardgame:main' %}"><h3>PIROGRAM CARDGAME</h3></a>
+    <a href="{% url 'cardgame:signup' %}"><button>회원가입</button></a>
+    <a href="{% url 'cardgame:login' %}"><button>로그인</button></a>
 </div>
 
 <div>
