@@ -71,3 +71,40 @@ def detail(request, pk):
         attacker_in = False # 로그인한 유저가 defender
     return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in})
         # templete에서 {% if attacker_in %} {% else %} 를 통해, 게임 정보를 서술할 때 "나"의 입장이 attacker 입장인지 defender 입장인지 식별 가능함
+
+def delete(request, pk):
+	game = get_object_or_404(Game, id=pk)
+	game.delete()
+	return redirect('cardgame:main')
+		# !!!!! list 페이지 만들고나서 redirect 수정하기
+
+def game_win(pk):
+    game = get_object_or_404(Game, id=pk)
+
+    if game.rule == 'BIG':
+        if game.attacker_num > game.defender_num:
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
+        
+        elif game.attacker_num == game.defender_num:
+            game.winner = None
+
+        else:
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score += game.defender_num
+
+    else:
+        if game.attacker_num < game.defender_num:
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score == game.defender_num
+        
+        elif game.attacker_num == game.defender_num:
+            game.winner = None
+
+        else:
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
