@@ -6,6 +6,10 @@ from .models import *
 from .forms import *
 from random import *
 
+def loginuser(request):
+    return Profile.objects.get(user=request.user)
+
+
 # Authentication
 
 def signup(request):
@@ -15,6 +19,7 @@ def signup(request):
                 username = request.POST.get("username"),
                 password = request.POST.get("password1")
             )
+            Profile.objects.create(user=user)
             auth.login(request, user)
             return redirect('/')
         return render(request, 'cardgame/signup.html')
@@ -51,78 +56,100 @@ def attack(request):
         rule_list = ["BIG", "SMALL"]
         chosen_rule = choice(rule_list)
 
-        game = Game(attacker=request.user, rule=chosen_rule) # Game object 생성
+        game = Game(attacker=loginuser(request), rule=chosen_rule) # Game object 생성
         form = AttackForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            return redirect("cardgame:detail", game.id) # 게임 디테일 보여줄 건지 전적 보여줄 건지??
+            return redirect("cardgame:detail", game.id)
 
     else:
         form = AttackForm()
-        form.fields["defender"].queryset = User.objects.all().exclude(id=request.user.id)
+        form.fields["defender"].queryset = Profile.objects.all().exclude(user=request.user)
         return render(request, "cardgame/attack.html", {"form":form})
 
 def detail(request, pk):
     game = get_object_or_404(Game, id=pk)
     
-    if request.user == game.attacker:
+    if loginuser(request) == game.attacker:
         attacker_in = True # 로그인한 유저가 attacker
     else:
         attacker_in = False # 로그인한 유저가 defender
     return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in})
         # templete에서 {% if attacker_in %} {% else %} 를 통해, 게임 정보를 서술할 때 "나"의 입장이 attacker 입장인지 defender 입장인지 식별 가능함
 
-
 def delete(request, pk):
-    game = get_object_or_404(Game, id=pk)
-    game.delete()
-
-    return redirect('cardgame:main')
+   game = get_object_or_404(Game, id=pk)
+   game.delete()
+   return redirect('cardgame:main')
       # !!!!! list 페이지 만들고나서 redirect 수정하기
 
-
-def game_win(request, pk):
+def defend(request, pk):
     game = get_object_or_404(Game, id=pk)
-    user = UserList.get(id=request.user.id)
-    if game.rule == 'BIG':
-        if game.attacker_num > game.defender_num:
-            game.winner = game.attacker
-            user.score += game.attacker_num
-            user.score -= game.defender_num
-        
-        elif game.attacker_num == game.defender_num:
-            game.winner = None
 
-        else:
-            game.winner = game.defender
-            user.score -= game.attacker_num
-            user.score += game.defender_num
-
-    else:
-        if game.attacker_num < game.defender_num:
-            game.winner = game.attacker
-            user.score += game.attacker_num
-            user.score -= game.defender_num
-        
-        elif game.attacker_num == game.defender_num:
-            game.winner = None
-
-        else:
-            game.winner = game.defender
-            user.score -= game.attacker_num
-            user.score += game.defender_num
-
-
-def defend(request,pk):
-    game= get_object_or_404(Game, pk=pk)
     if request.method == "POST":
         form = DefendForm(request.POST, instance=game)
         if form.is_valid():
             form.save()
-            return redirect("cardgame:detail", pk=game.pk) # 게임 디테일 보여줄 건지 전적 보여줄 건지?? game.id
-        
+            game_win(game)
+            return redirect("cardgame:detail", pk=game.id)
+
     else:
         form = DefendForm()
         return render(request, "cardgame/defend.html", {"form":form})
-    game_win(pk)
-    print(game.defender.score)
+
+def game_win(game):
+    if game.rule == 'BIG':
+        if game.attacker_num > game.defender_num:
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
+        
+        elif game.attacker_num == game.defender_num:
+            game.winner = None
+            game.save()
+            game.attacker.save()
+            game.defender.save()
+
+        else:
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score += game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
+
+        # game.save()
+
+    else:
+        if game.attacker_num < game.defender_num:
+            game.winner = game.attacker
+            game.attacker.score += game.attacker_num
+            game.defender.score -= game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
+        
+        elif game.attacker_num == game.defender_num:
+            game.winner = None
+            game.save()
+            game.attacker.save()
+            game.defender.save()
+
+        else:
+            game.winner = game.defender
+            game.attacker.score -= game.attacker_num
+            game.defender.score += game.defender_num
+            game.save()
+            game.attacker.save()
+            game.defender.save()
+
+def ranking(request):
+
+    users = Profile.objects.all().order_by('-score')
+    index = users.count
+    ctx = {'users':users, 'index':index}
+
+    return render(request, template_name='cardgame/ranking.html', context=ctx)

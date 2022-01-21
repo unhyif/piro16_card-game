@@ -8,7 +8,8 @@ detail.html
 </h4>
 {% if attacker_in %}
 <p>나 : {{game.attacker_num}}</p>
-{% endif %}
+<button><a href="{% url 'cardgame:delete' game.id %}">게임 취소</a></button>
+<br />{%endif %} {% endblock %}
 
 <button><a href="{% url 'cardgame:delete' game.id %}">게임 취소</a></button>
 

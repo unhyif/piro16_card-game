@@ -13,8 +13,8 @@ class AttackForm(forms.ModelForm):
 
 class DefendForm(forms.ModelForm):
     class Meta:
-        model=Game
-        fields=['defender_num']
-        labels={
+        model = Game
+        fields = ['defender_num']
+        labels = {
             'defender_num': _('내가 고른 카드(defend)'),
         }
