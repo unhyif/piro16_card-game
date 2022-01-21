@@ -39,7 +39,7 @@ class Game(models.Model): # ModelForm 만들 때 field 수동으로 설정 (not 
         five_nums1.sort()
     for i in range(5):
         ran = randint(1,10)
-        while ran in five_nums1:
+        while ran in five_nums2:
             ran = randint(1,10)
         five_nums2.append(ran)
         five_nums2.sort()

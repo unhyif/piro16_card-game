@@ -1,13 +1,11 @@
 {% extends "base.html" %} {% block content %}
 <h2>{{game}}</h2>
 <h4>
-	{% if game.rule == "BIG" %}숫자가 큰 사람이 이깁니다{% else %}숫자가 작은
-	사람이 이깁니다{% endif %}
+  {% if game.rule == "BIG" %}숫자가 큰 사람이 이깁니다{% else %}숫자가 작은
+  사람이 이깁니다{% endif %}
 </h4>
 {% if attacker_in %}
 <p>나 : {{game.attacker_num}}</p>
 {% endif %}
-
 <button><a href="{% url 'cardgame:delete' game.id %}">게임 취소</a></button>
-
 {% endblock %}

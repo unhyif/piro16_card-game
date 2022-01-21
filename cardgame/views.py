@@ -73,22 +73,22 @@ def detail(request, pk):
         # templete에서 {% if attacker_in %} {% else %} 를 통해, 게임 정보를 서술할 때 "나"의 입장이 attacker 입장인지 defender 입장인지 식별 가능함
 
 def delete(request, pk):
-	game = get_object_or_404(Game, id=pk)
-	game.delete()
-	return redirect('cardgame:main')
-		# !!!!! list 페이지 만들고나서 redirect 수정하기
+   game = get_object_or_404(Game, id=pk)
+   
+   print('===== 삭제 전 =====\n')
+   print("공격자", game.attacker)
+   print("반격자", game.defender)
+   print("공격자 번호", game.attacker_num)
+   print("반격자 번호", game.defender_num)
 
-def game_win(pk):
-    game = get_object_or_404(Game, id=pk)
+   game.delete()
+   print(game)
 
-    if game.rule == 'BIG':
-        if game.attacker_num > game.defender_num:
-            game.winner = game.attacker
-            game.attacker.score += game.attacker_num
-            game.defender.score -= game.defender_num
-        
-        elif game.attacker_num == game.defender_num:
-            game.winner = None
+   print('===== 삭제 후 =====\n')
+   print("공격자", game.attacker)
+   print("반격자", game.defender)
+   print("공격자 번호", game.attacker_num)
+   print("반격자 번호", game.defender_num)
 
    return redirect('cardgame:main')
       # !!!!! list 페이지 만들고나서 redirect 수정하기
@@ -101,6 +101,6 @@ def defend(request,pk):
             form.save()
             return redirect("cardgame:detail", pk=game.pk) # 게임 디테일 보여줄 건지 전적 보여줄 건지?? game.id
 
-        form = DefendForm()
     else:
+        form = DefendForm()
         return render(request, "cardgame/defend.html", {"form":form})
