@@ -95,42 +95,28 @@ def get_winner(game):
             game.winner = game.attacker
             game.attacker.score += game.attacker_num
             game.defender.score -= game.defender_num
-            # game.save()
-            # game.attacker.save()
-            # game.defender.save()
         
         elif game.attacker_num == game.defender_num:
             game.winner = None
-            # game.save()
 
         else:
             game.winner = game.defender
             game.attacker.score -= game.attacker_num
             game.defender.score += game.defender_num
-            # game.save()
-            # game.attacker.save()
-            # game.defender.save()
 
     else:
         if game.attacker_num < game.defender_num:
             game.winner = game.attacker
             game.attacker.score += game.attacker_num
             game.defender.score -= game.defender_num
-            # game.save()
-            # game.attacker.save()
-            # game.defender.save()
         
         elif game.attacker_num == game.defender_num:
             game.winner = None
-            # game.save()
 
         else:
             game.winner = game.defender
             game.attacker.score -= game.attacker_num
             game.defender.score += game.defender_num
-            # game.save()
-            # game.attacker.save()
-            # game.defender.save()
 
     game.save()
     game.attacker.save()
