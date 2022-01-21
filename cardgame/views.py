@@ -68,13 +68,7 @@ def attack(request): # 공격하기 누르면 Game object 생성
 
 def detail(request, pk):
     game = get_object_or_404(Game, id=pk)
-    
-    # if login_user(request) == game.attacker:
-    #     attacker_in = True # 로그인한 유저가 attacker
-    # else:
-    #     attacker_in = False # 로그인한 유저가 defender
     return render(request, "cardgame/detail.html", {"game":game, "login_user":login_user(request)})
-    # return render(request, "cardgame/detail.html", {"game":game, "attacker_in":attacker_in, "status":status(pk)})
 
 def delete(request, pk):
    game = get_object_or_404(Game, id=pk)
